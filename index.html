@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Técnico Legal - Condominio Shelmalta | DOXUS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-page: #ffffff;
+            --primary: #262a36;
+            --accent: #Ffbc06;
+            --card-bg: #f8f9fa;
+            --border-color: #e9ecef;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--primary);
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        /* Lock Screen Styling */
+        #lock-screen {
+            position: fixed;
+            inset: 0;
+            background-color: var(--primary);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        #lock-screen.unlocked {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Sticky Navigation */
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            background-color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            z-index: 1000;
+        }
+
+        /* Card Presentation Styling */
+        .card-presentation {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+            position: relative;
+            padding: 2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-presentation:hover {
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-index {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            opacity: 0.4;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        /* Logo Fallback System */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-fallback {
+            background-color: var(--accent);
+            color: #000000;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .nav-logo-fallback {
+            width: 38px;
+            height: 38px;
+            font-size: 1.2rem;
+        }
+
+        .footer-logo-fallback {
+            width: 46px; /* 20% larger than nav */
+            height: 46px;
+            font-size: 1.5rem;
+        }
+
+        /* Financial Highlight Box */
+        .financial-highlight-box {
+            background-color: var(--accent);
+            color: var(--primary);
+            border-radius: 1.5rem;
+            padding: 2.25rem;
+            box-shadow: 0 8px 30px rgba(255, 188, 6, 0.2);
+        }
+
+        /* Vertical Timeline */
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: calc(-2rem - 6px);
+            top: 0.25rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            border: 2px solid var(--primary);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        /* Print optimization */
+        @media print {
+            #lock-screen { display: none !important; }
+            .sticky-nav { position: relative; }
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-800">
+
+    <!-- CAPA DE BLOQUEO INICIAL (LOCK SCREEN) -->
+    <div id="lock-screen">
+        <div class="bg-[#262a36] border border-slate-700 p-8 md:p-10 rounded-3xl max-w-md w-11/12 text-center shadow-2xl">
+            <div class="flex justify-center mb-6">
+                <div class="logo-fallback nav-logo-fallback !w-14 !h-14 !text-2xl !rounded-xl">D</div>
+            </div>
+            <h2 class="text-2xl font-black text-white tracking-wide uppercase mb-2">Acceso Restringido</h2>
+            <p class="text-slate-400 text-xs tracking-wider uppercase mb-6">REPORTE TÉCNICO LEGAL - CONDOMINIO SHELMALTA</p>
+            
+            <form id="lock-form" onsubmit="validatePassword(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="password-input" placeholder="Ingrese la contraseña" 
+                           class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#Ffbc06] text-center font-bold tracking-widest text-sm">
+                </div>
+                <button type="submit" class="w-full py-3 bg-[#Ffbc06] text-[#262a36] font-extrabold rounded-xl hover:bg-yellow-400 transition-colors uppercase text-xs tracking-widest">
+                    Desbloquear Documento
+                </button>
+            </form>
+            <p id="error-message" class="text-red-400 text-xs mt-3 hidden font-semibold">Contraseña incorrecta. Intente nuevamente.</p>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div id="main-content" class="min-h-screen flex flex-col justify-between">
+        
+        <!-- NAVEGACIÓN SUPERIOR FIXA (STICKY NAV) -->
+        <header class="sticky-nav px-6 py-4">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <div class="logo-container">
+                    <img src="logo.png" alt="DOXUS Logo" class="h-8 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="logo-fallback nav-logo-fallback hidden" title="DOXUS">D</div>
+                    <span class="text-white font-black tracking-widest text-lg hidden sm:inline-block">DOXUS <span class="text-[#Ffbc06] font-light text-xs tracking-widest block">REPORTE TÉCNICO LEGAL</span></span>
+                </div>
+                <div class="flex items-center space-x-6 text-xs text-slate-300 font-semibold tracking-wider">
+                    <a href="#recomendaciones" class="hover:text-[#Ffbc06] transition-colors hidden md:inline">RECOMENDACIONES</a>
+                    <a href="#analisis" class="hover:text-[#Ffbc06] transition-colors hidden md:inline">ANÁLISIS</a>
+                    <a href="#pagos" class="hover:text-[#Ffbc06] transition-colors hidden md:inline">PAGOS</a>
+                    <a href="#diagnostico" class="hover:text-[#Ffbc06] transition-colors hidden md:inline">DIAGNÓSTICO</a>
+                    <a href="#inventario" class="hover:text-[#Ffbc06] transition-colors hidden md:inline">DOCUMENTOS</a>
+                    <span class="bg-slate-800 text-[#Ffbc06] px-3 py-1 rounded-full text-[10px] font-bold border border-slate-700">EXP: 02-010SHM/2026</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- HERO / HEADER TÉCNICO -->
+        <section class="bg-[#262a36] text-white pt-12 pb-16 px-6 border-b border-slate-800">
+            <div class="max-w-7xl mx-auto">
+                <div class="inline-block bg-yellow-500/10 text-[#Ffbc06] px-3 py-1 rounded-md text-xs font-bold tracking-widest uppercase mb-4 border border-[#Ffbc06]/20">
+                    DICTAMEN TÉCNICO LEGAL - DERECHO CONDOMINAL
+                </div>
+                <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4">
+                    RÉGIMEN DE CONDOMINIO TORRE SHELMALTA
+                </h1>
+                <p class="text-slate-300 text-sm md:text-base max-w-4xl font-light leading-relaxed mb-8">
+                    Análisis técnico legal de la Escritura Pública No. 68,409 (Notario 35 de Zapopan, Lic. Pablo González Vázquez). Diagnóstico sobre la estructura condominal compuesto-simple, atribuciones del desarrollador constituyente, órganos de representación y marco reglamentario aplicable a la Torre 1 (UC1).
+                </p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-800 text-xs">
+                    <div>
+                        <span class="text-slate-400 block uppercase tracking-wider text-[10px]">Ubicación</span>
+                        <span class="font-bold text-white">Felipe Ruvalcaba #5790, Fracc. El Colli, Zapopan</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block uppercase tracking-wider text-[10px]">Estructura</span>
+                        <span class="font-bold text-[#Ffbc06]">Régimen Compuesto + Simple</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block uppercase tracking-wider text-[10px]">Fecha Dictamen</span>
+                        <span class="font-bold text-white">Julio 2026</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block uppercase tracking-wider text-[10px]">Estatus Operativo</span>
+                        <span class="font-bold text-emerald-400">Revisión Solicitada por Colonos</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LAYOUT DE CONTENIDO: 5 APARTADOS CRÍTICOS -->
+        <main class="max-w-7xl mx-auto px-6 py-12 space-y-16 flex-grow w-full">
+
+            <!-- APARTADO 01: RECOMENDACIONES (HOJA DE RUTA NUMERADA 01 AL 04) -->
+            <section id="recomendaciones" class="scroll-mt-24">
+                <div class="card-presentation">
+                    <span class="card-index">APARTADO 01</span>
+                    <h2 class="text-2xl font-black text-[#262a36] uppercase tracking-wide mb-2">Recomendaciones de Mitigación Operativa</h2>
+                    <p class="text-slate-500 text-xs mb-8">Hoja de ruta secuencial prioritaria para inhibir pasivos contingentes y regularizar la representación legal.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Step 01 -->
+                        <div class="bg-white p-6 rounded-2xl border border-[#e9ecef] shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="text-3xl font-black text-[#Ffbc06] mb-3">01</div>
+                                <h3 class="font-bold text-[#262a36] text-sm mb-2">Confirmación de Representación</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">
+                                    Solicitar formalmente al desarrollador la ratificación o actualización de las personas físicas/morales designadas en el Consejo y Administración.
+                                </p>
+                            </div>
+                            <span class="mt-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 block border-t pt-2">Acción Inmediata</span>
+                        </div>
+
+                        <!-- Step 02 -->
+                        <div class="bg-white p-6 rounded-2xl border border-[#e9ecef] shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="text-3xl font-black text-[#Ffbc06] mb-3">02</div>
+                                <h3 class="font-bold text-[#262a36] text-sm mb-2">Convocatoria de Asamblea</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">
+                                    Reunir al menos el 33% del indiviso de UC1 (10 departamentos aprox.) o 20% en Compuesto para solicitar convocatoria formal de Asamblea vía Juez de Primera Instancia si hay negativa.
+                                </p>
+                            </div>
+                            <span class="mt-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 block border-t pt-2">Estrategia Colectiva</span>
+                        </div>
+
+                        <!-- Step 03 -->
+                        <div class="bg-white p-6 rounded-2xl border border-[#e9ecef] shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="text-3xl font-black text-[#Ffbc06] mb-3">03</div>
+                                <h3 class="font-bold text-[#262a36] text-sm mb-2">Auditoría y Cuentas Bancarias</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">
+                                    Exigir auditoría contable a la administración saliente y asegurar la prohibición total de recepción de dinero en efectivo habilitando cuenta a nombre del condominio.
+                                </p>
+                            </div>
+                            <span class="mt-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 block border-t pt-2">Control Financiero</span>
+                        </div>
+
+                        <!-- Step 04 -->
+                        <div class="bg-white p-6 rounded-2xl border border-[#e9ecef] shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="text-3xl font-black text-[#Ffbc06] mb-3">04</div>
+                                <h3 class="font-bold text-[#262a36] text-sm mb-2">Documentación de Afectaciones</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">
+                                    Bitácora de cualquier cambio en fachadas, áreas comunes o cobros unilaterales por JAET. Solo ante una afectación jurídica directa procede la acción contenciosa legal.
+                                </p>
+                            </div>
+                            <span class="mt-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 block border-t pt-2">Protección Legal</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APARTADO 02: ANÁLISIS CONTRACTUAL -->
+            <section id="analisis" class="scroll-mt-24">
+                <div class="card-presentation space-y-8">
+                    <span class="card-index">APARTADO 02</span>
+                    <div>
+                        <h2 class="text-2xl font-black text-[#262a36] uppercase tracking-wide mb-2">Análisis Contractual y Estructura Condominal</h2>
+                        <p class="text-slate-500 text-xs">Identificación de las partes integrantes, subcondominios y cláusulas de control reservadas.</p>
+                    </div>
+
+                    <!-- Fichas de Partes Organizadas -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Ficha 1: Régimen Compuesto -->
+                        <div class="bg-white p-6 rounded-2xl border border-[#e9ecef]">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Estructura General</span>
+                                    <h3 class="font-extrabold text-[#262a36] text-base">Régimen de Condominio Compuesto</h3>
+                                </div>
+                                <span class="bg-slate-100 text-[#262a36] font-bold text-xs px-2.5 py-1 rounded-md">1,900.44 m² Total</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-4">
+                                Integra 4 Unidades Condominales (UC) destinadas a coexistir bajo reglas colectivas de infraestructura común (vialidades, ingresos, cisternas).
+                            </p>
+                            <div class="space-y-2 text-xs border-t border-slate-100 pt-3">
+                                <div class="flex justify-between"><span class="text-slate-500">UC1 Habitacional (Torre 1 - 26 UP):</span><span class="font-bold">43.3237% / 823.34 m²</span></div>
+                                <div class="flex justify-between"><span class="text-slate-500">UC2 Habitacional (Torre 2):</span><span class="font-bold">46.3866% / 881.55 m²</span></div>
+                                <div class="flex justify-between"><span class="text-slate-500">UPL-1 Comercial:</span><span class="font-bold">7.2667% / 138.10 m²</span></div>
+                                <div class="flex justify-between"><span class="text-slate-500">UPL-2 Comercial:</span><span class="font-bold">3.0230% / 57.45 m²</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Ficha 2: Condominio Simple UC1 -->
+                        <div class="bg-white p-6 rounded-2xl border border-[#e9ecef]">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Subcondominio Habitacional</span>
+                                    <h3 class="font-extrabold text-[#262a36] text-base">Condominio Simple UC1 (Torre 1)</h3>
+                                </div>
+                                <span class="bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-1 rounded-md">2,997.38 m² Construcción</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-4">
+                                Constituido formalmente sobre la UC1. Posee 26 unidades privativas (UP) con Áreas Comunes de Uso Exclusivo (ACUE) asignadas. Representa el 44.4227% del indiviso compuesto total.
+                            </p>
+                            <div class="space-y-2 text-xs border-t border-slate-100 pt-3">
+                                <div class="flex justify-between"><span class="text-slate-500">Administrador Compuesto:</span><span class="font-bold">JAET Edificación y Acabados S.A. de C.V.</span></div>
+                                <div class="flex justify-between"><span class="text-slate-500">Administrador Simple UC1:</span><span class="font-bold">Francisco de Jesús Olvera Enríquez</span></div>
+                                <div class="flex justify-between"><span class="text-slate-500">Presidencia de Consejo:</span><span class="font-bold">Juan José Pérez Aguilar</span></div>
+                                <div class="flex justify-between"><span class="text-slate-500">Secretaría / Tesorería:</span><span class="font-bold">J. L. Espinoza / M. Pérez Landeros</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA / DESPLEGABLE DE TABLA DE PROINDIVISOS DE LA TORRE 1 -->
+                    <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+                        <button type="button" 
+                                onclick="toggleProindivisosTable()" 
+                                id="btn-toggle-proindivisos"
+                                class="w-full px-6 py-4 bg-slate-900 hover:bg-[#262a36] text-white flex justify-between items-center transition-colors text-left focus:outline-none">
+                            <div class="flex items-center gap-3">
+                                <span class="w-3 h-3 rounded-full bg-[#Ffbc06]"></span>
+                                <div>
+                                    <h3 class="font-extrabold text-sm uppercase tracking-wider text-white">Tabla de Proindivisos Torre 1 (UC1)</h3>
+                                    <p class="text-[11px] text-slate-400 font-normal">Desglose de 26 Unidades Privativas, ACUE y Porcentajes de Indiviso Simple y Compuesto</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="bg-[#Ffbc06] text-[#262a36] font-black text-[10px] px-2.5 py-1 rounded-md uppercase tracking-wider">26 Departamentos</span>
+                                <svg id="chevron-proindivisos" class="w-5 h-5 text-[#Ffbc06] transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </button>
+
+                        <!-- CONTENIDO DE LA TABLA (OCULTO POR DEFECTO) -->
+                        <div id="tabla-proindivisos-container" class="hidden border-t border-slate-200 p-4 md:p-6 bg-slate-50">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border-collapse">
+                                    <thead>
+                                        <tr class="bg-[#262a36] text-white">
+                                            <th class="py-2.5 px-3 rounded-tl-lg font-bold uppercase text-[10px] tracking-wider">Unidad Privativa</th>
+                                            <th class="py-2.5 px-3 font-bold uppercase text-[10px] tracking-wider text-right">Sup. M²</th>
+                                            <th class="py-2.5 px-3 font-bold uppercase text-[10px] tracking-wider">ACUE Asignada</th>
+                                            <th class="py-2.5 px-3 font-bold uppercase text-[10px] tracking-wider">Uso ACUE</th>
+                                            <th class="py-2.5 px-3 font-bold uppercase text-[10px] tracking-wider text-right">Sup. ACUE M²</th>
+                                            <th class="py-2.5 px-3 font-bold uppercase text-[10px] tracking-wider text-right">Sup. Indiviso M²</th>
+                                            <th class="py-2.5 px-3 font-bold uppercase text-[10px] tracking-wider text-right">% Indiviso Simple</th>
+                                            <th class="py-2.5 px-3 rounded-tr-lg font-bold uppercase text-[10px] tracking-wider text-right">% Indiviso Compuesto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-1</td><td class="py-2 px-3 text-right">181.42</td><td class="py-2 px-3 text-slate-400">Sin ACUE</td><td class="py-2 px-3 text-slate-400">N/A</td><td class="py-2 px-3 text-right text-slate-400">-</td><td class="py-2 px-3 text-right font-medium">181.42</td><td class="py-2 px-3 text-right font-semibold">6.0526%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">2.6887%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-11</td><td class="py-2 px-3 text-right">105.83</td><td class="py-2 px-3">ACUE 14</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">14.41</td><td class="py-2 px-3 text-right font-medium">120.24</td><td class="py-2 px-3 text-right font-semibold">4.0115%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.7820%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-12</td><td class="py-2 px-3 text-right">81.74</td><td class="py-2 px-3">ACUE 30</td><td class="py-2 px-3">Jardín</td><td class="py-2 px-3 text-right">12.54</td><td class="py-2 px-3 text-right font-medium">94.28</td><td class="py-2 px-3 text-right font-semibold">3.1454%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.3973%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-13</td><td class="py-2 px-3 text-right">85.30</td><td class="py-2 px-3">ACUE 34</td><td class="py-2 px-3">Jardín</td><td class="py-2 px-3 text-right">12.90</td><td class="py-2 px-3 text-right font-medium">98.20</td><td class="py-2 px-3 text-right font-semibold">3.2762%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4554%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-14</td><td class="py-2 px-3 text-right">92.42</td><td class="py-2 px-3">ACUE 10</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">14.65</td><td class="py-2 px-3 text-right font-medium">107.07</td><td class="py-2 px-3 text-right font-semibold">3.5721%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.5868%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-15</td><td class="py-2 px-3 text-right">87.65</td><td class="py-2 px-3">ACUE 9</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">13.19</td><td class="py-2 px-3 text-right font-medium">100.84</td><td class="py-2 px-3 text-right font-semibold">3.3643%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4945%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-21</td><td class="py-2 px-3 text-right">105.83</td><td class="py-2 px-3">ACUE 15</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">13.27</td><td class="py-2 px-3 text-right font-medium">119.10</td><td class="py-2 px-3 text-right font-semibold">3.9735%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.7651%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-22</td><td class="py-2 px-3 text-right">81.74</td><td class="py-2 px-3">ACUE 31</td><td class="py-2 px-3">Jardín</td><td class="py-2 px-3 text-right">13.78</td><td class="py-2 px-3 text-right font-medium">95.52</td><td class="py-2 px-3 text-right font-semibold">3.1868%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4157%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-23</td><td class="py-2 px-3 text-right">85.30</td><td class="py-2 px-3">ACUE 1</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">13.64</td><td class="py-2 px-3 text-right font-medium">98.94</td><td class="py-2 px-3 text-right font-semibold">3.3009%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4663%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-24</td><td class="py-2 px-3 text-right">92.42</td><td class="py-2 px-3">ACUE 11</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">14.33</td><td class="py-2 px-3 text-right font-medium">106.75</td><td class="py-2 px-3 text-right font-semibold">3.5614%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.5821%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-25</td><td class="py-2 px-3 text-right">87.65</td><td class="py-2 px-3">ACUE 26</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">12.76</td><td class="py-2 px-3 text-right font-medium">100.41</td><td class="py-2 px-3 text-right font-semibold">3.3499%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4881%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-31</td><td class="py-2 px-3 text-right">105.83</td><td class="py-2 px-3">ACUE 16</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">14.79</td><td class="py-2 px-3 text-right font-medium">120.62</td><td class="py-2 px-3 text-right font-semibold">4.0242%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.7876%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-32</td><td class="py-2 px-3 text-right">81.74</td><td class="py-2 px-3">ACUE 32</td><td class="py-2 px-3">Jardín</td><td class="py-2 px-3 text-right">12.94</td><td class="py-2 px-3 text-right font-medium">94.68</td><td class="py-2 px-3 text-right font-semibold">3.1588%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4032%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-33</td><td class="py-2 px-3 text-right">85.30</td><td class="py-2 px-3">ACUE 2</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">13.60</td><td class="py-2 px-3 text-right font-medium">98.90</td><td class="py-2 px-3 text-right font-semibold">3.2995%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4657%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-34</td><td class="py-2 px-3 text-right">92.42</td><td class="py-2 px-3">ACUE 12</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">13.18</td><td class="py-2 px-3 text-right font-medium">105.60</td><td class="py-2 px-3 text-right font-semibold">3.5231%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.5650%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-35</td><td class="py-2 px-3 text-right">87.65</td><td class="py-2 px-3">ACUE 27</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">14.02</td><td class="py-2 px-3 text-right font-medium">101.67</td><td class="py-2 px-3 text-right font-semibold">3.3920%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.5068%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-41</td><td class="py-2 px-3 text-right">105.83</td><td class="py-2 px-3">ACUE 17</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">14.73</td><td class="py-2 px-3 text-right font-medium">120.56</td><td class="py-2 px-3 text-right font-semibold">4.0222%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.7868%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-42</td><td class="py-2 px-3 text-right">81.74</td><td class="py-2 px-3">ACUE 33</td><td class="py-2 px-3">Jardín</td><td class="py-2 px-3 text-right">12.92</td><td class="py-2 px-3 text-right font-medium">94.66</td><td class="py-2 px-3 text-right font-semibold">3.1581%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4029%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-43</td><td class="py-2 px-3 text-right">85.30</td><td class="py-2 px-3">ACUE 5</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">12.50</td><td class="py-2 px-3 text-right font-medium">97.80</td><td class="py-2 px-3 text-right font-semibold">3.2628%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4494%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-44</td><td class="py-2 px-3 text-right">92.42</td><td class="py-2 px-3">ACUE 13</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">14.69</td><td class="py-2 px-3 text-right font-medium">107.11</td><td class="py-2 px-3 text-right font-semibold">3.5735%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.5874%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-45</td><td class="py-2 px-3 text-right">87.65</td><td class="py-2 px-3">ACUE 25</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">14.02</td><td class="py-2 px-3 text-right font-medium">101.67</td><td class="py-2 px-3 text-right font-semibold">3.3920%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.5068%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-51</td><td class="py-2 px-3 text-right">105.83</td><td class="py-2 px-3">ACUE 20</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">14.08</td><td class="py-2 px-3 text-right font-medium">119.91</td><td class="py-2 px-3 text-right font-semibold">4.0005%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.7771%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-52</td><td class="py-2 px-3 text-right">81.74</td><td class="py-2 px-3">ACUE 8</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">13.20</td><td class="py-2 px-3 text-right font-medium">94.94</td><td class="py-2 px-3 text-right font-semibold">3.1674%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4071%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-53</td><td class="py-2 px-3 text-right">85.30</td><td class="py-2 px-3">ACUE 6</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">12.50</td><td class="py-2 px-3 text-right font-medium">97.80</td><td class="py-2 px-3 text-right font-semibold">3.2628%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4494%</td></tr>
+                                        <tr class="hover:bg-amber-50/50 bg-amber-50/20"><td class="py-2 px-3 font-extrabold text-[#262a36]">UP1-54</td><td class="py-2 px-3 text-right font-bold">92.42</td><td class="py-2 px-3 text-[10px]">3,4,7,18,19,21,22,23,28,29,35,36</td><td class="py-2 px-3 text-[10px]">10 bodegas, 1 cajón, 1 jardín, 1 azotea</td><td class="py-2 px-3 text-right font-bold">318.37</td><td class="py-2 px-3 text-right font-bold text-amber-900">410.79</td><td class="py-2 px-3 text-right font-extrabold text-amber-900">10.6216%</td><td class="py-2 px-3 text-right font-extrabold text-amber-800">4.7187%</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="py-2 px-3 font-bold text-[#262a36]">UP1-55</td><td class="py-2 px-3 text-right">87.65</td><td class="py-2 px-3">ACUE 24</td><td class="py-2 px-3">Cajón Estacionamiento</td><td class="py-2 px-3 text-right">12.67</td><td class="py-2 px-3 text-right font-medium">100.32</td><td class="py-2 px-3 text-right font-semibold">3.3469%</td><td class="py-2 px-3 text-right font-semibold text-amber-700">1.4868%</td></tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="bg-[#262a36] text-white font-black text-xs">
+                                            <td class="py-3 px-3 rounded-bl-lg">TOTALES</td>
+                                            <td class="py-3 px-3 text-right">2,446.12 m²</td>
+                                            <td class="py-3 px-3" colspan="2">26 Unidades Privativas</td>
+                                            <td class="py-3 px-3 text-right">-</td>
+                                            <td class="py-3 px-3 text-right text-[#Ffbc06]">2,997.38 m²</td>
+                                            <td class="py-3 px-3 text-right text-[#Ffbc06]">100.00%</td>
+                                            <td class="py-3 px-3 text-right text-[#Ffbc06] rounded-br-lg">44.4227%</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cláusulas de Control / Atribuciones del Desarrollador (Art. 21) -->
+                    <div class="bg-slate-900 text-white p-6 rounded-2xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-black text-[#Ffbc06] text-sm uppercase tracking-wider">Cláusula de Control Absoluto: Derechos Especiales del Constituyente (Artículo 21)</h3>
+                            <span class="bg-red-500/20 text-red-400 border border-red-500/30 font-bold text-[10px] px-2.5 py-0.5 rounded-full">Candado Jurídico 95%</span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            El Reglamento del Régimen Compuesto otorga a la desarrolladora <strong>"JAET EDIFICACIÓN Y ACABADOS, S.A. DE C.V."</strong> un catálogo unilateral de 19 facultades especiales (incisos a-s) ejercibles sin autorización de la Asamblea, siempre que conserve al menos una unidad privativa:
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-300">
+                            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                                <strong class="text-white block mb-1">Ajuste de Cuotas y Obras</strong>
+                                Modificación unilateral de cuotas de mantenimiento y ejecución de obras/remodelaciones en cualquier unidad sin consenso.
+                            </div>
+                            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                                <strong class="text-white block mb-1">Explotación Comercial</strong>
+                                Uso exclusivo de fachadas y azoteas para publicidad, recibiendo la totalidad de los ingresos en beneficio propio.
+                            </div>
+                            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                                <strong class="text-white block mb-1">Ajuste de Indivisos</strong>
+                                Modificación de porcentajes de indiviso y constitución de servidumbres con predios vecinos sin consulta vecinal.
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-slate-400 italic mt-4 border-t border-slate-800 pt-3">
+                            *Nota Técnica: Para revocar estos derechos especiales en Asamblea Extraordinaria, se requiere el voto calificado del <strong>95.00% del total del indiviso del desarrollo</strong>, imposibilitando la modificación sin el consentimiento del desarrollador.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APARTADO 03: ESQUEMA DE PAGOS -->
+            <section id="pagos" class="scroll-mt-24">
+                <div class="card-presentation space-y-6">
+                    <span class="card-index">APARTADO 03</span>
+                    <div>
+                        <h2 class="text-2xl font-black text-[#262a36] uppercase tracking-wide mb-2">Esquema de Pagos y Reglas Financieras</h2>
+                        <p class="text-slate-500 text-xs">Directrices de recaudación, fondo de reserva y prohibiciones estipuladas en los reglamentos.</p>
+                    </div>
+
+                    <!-- Caja Resaltada en Amarillo Vibrante (#Ffbc06) -->
+                    <div class="financial-highlight-box">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                            <div>
+                                <span class="text-[10px] font-black uppercase tracking-widest text-[#262a36]/70">Resumen Operativo Financiero</span>
+                                <h3 class="text-xl font-black text-[#262a36]">Prohibición Estricta de Operaciones en Efectivo</h3>
+                            </div>
+                            <span class="bg-[#262a36] text-[#Ffbc06] text-xs font-bold px-3 py-1.5 rounded-xl uppercase tracking-wider">
+                                Art. 38 & 34 Régimen Compuesto
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-white/80 backdrop-blur p-4 rounded-xl border border-black/5">
+                                <span class="text-[10px] font-bold text-slate-600 uppercase block">Modalidad Única de Pago</span>
+                                <p class="text-sm font-extrabold text-[#262a36] mt-1">Depósito Ventanilla o Transferencia Bancaria</p>
+                                <p class="text-xs text-slate-700 mt-2">El administrador general tiene prohibición expresa de recibir cuotas en dinero en efectivo.</p>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur p-4 rounded-xl border border-black/5">
+                                <span class="text-[10px] font-bold text-slate-600 uppercase block">Titularidad de Cuentas</span>
+                                <p class="text-sm font-extrabold text-[#262a36] mt-1">A Nombre Exclusivo del Condominio</p>
+                                <p class="text-xs text-slate-700 mt-2">Las cuentas bancarias deben aperturarse a nombre del condominio y no de particulares o empresas.</p>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur p-4 rounded-xl border border-black/5">
+                                <span class="text-[10px] font-bold text-slate-600 uppercase block">Plazos e Incentivos</span>
+                                <p class="text-sm font-extrabold text-[#262a36] mt-1">Primeros 10 Días Naturales</p>
+                                <p class="text-xs text-slate-700 mt-2">Descuento por pronto pago en Torre 1. Mora de 3 meses faculta restricción de elevadores y servicios.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detalles Adicionales de Gestión Financiera -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-600">
+                        <div class="bg-white p-5 rounded-2xl border border-[#e9ecef]">
+                            <h4 class="font-bold text-[#262a36] text-sm mb-2">Fondo de Reserva y Mantenimiento</h4>
+                            <p class="leading-relaxed">
+                                El Reglamento del Subcondominio UC1 establece la obligación de integrar un Fondo de Reserva destinado a eventualidades y mantenimiento mayor de elevadores y áreas de uso común exclusivo. Los recursos devengados deben reportarse trimestralmente.
+                            </p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-[#e9ecef]">
+                            <h4 class="font-bold text-[#262a36] text-sm mb-2">Sanciones Económicas por Incumplimiento</h4>
+                            <p class="leading-relaxed">
+                                Las violaciones al reglamento interno (mudanzas no autorizadas, alteración de fachadas, ruido excesivo) generan multas equivalentes a hasta 2 cuotas de mantenimiento ordinarias, además del requerimiento de depósito de $10,000 MXN para eventos o mudanzas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APARTADO 04: DIAGNÓSTICO Y TIEMPOS -->
+            <section id="diagnostico" class="scroll-mt-24">
+                <div class="card-presentation space-y-8">
+                    <span class="card-index">APARTADO 04</span>
+                    <div>
+                        <h2 class="text-2xl font-black text-[#262a36] uppercase tracking-wide mb-2">Diagnóstico Legal y Línea de Tiempo</h2>
+                        <p class="text-slate-500 text-xs">Cronología de hitos documentales y evaluación de riesgo jurídico actual.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        <!-- Línea de Tiempo Vertical (LHS) -->
+                        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-[#e9ecef]">
+                            <h3 class="font-extrabold text-[#262a36] text-sm uppercase mb-6 tracking-wider">Cronología de Hitos</h3>
+                            <div class="timeline-container">
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <span class="text-[10px] font-extrabold text-amber-600 uppercase tracking-widest block">5 JUNIO 2024</span>
+                                    <h4 class="font-bold text-xs text-[#262a36]">Protocolización del Régimen</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">Escritura Pública No. 68,409 ante la fe del Notario 35 de Zapopan, Lic. Pablo González Vázquez. Creación del Condominio Compuesto y Simple UC1.</p>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <span class="text-[10px] font-extrabold text-amber-600 uppercase tracking-widest block">2024 - 2025</span>
+                                    <h4 class="font-bold text-xs text-[#262a36]">Designación Fundacional</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">Designación de JAET Edificación y Acabados como administrador inicial y constitución del Consejo de Administración Provisional.</p>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <span class="text-[10px] font-extrabold text-amber-600 uppercase tracking-widest block">JULIO 2026</span>
+                                    <h4 class="font-bold text-xs text-[#262a36]">Emisión de Dictamen Técnico</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">Solicitud de propietarios de Torre 1 para evaluar la estructura jurídica, facultades del desarrollador e irregulares de gestión.</p>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block">PERIÓDICO / ANUAL</span>
+                                    <h4 class="font-bold text-xs text-[#262a36]">Vencimiento Obligatorio de Asambleas</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">Obligación legal de sesionar al menos una vez al año para ratificación/remoción de la administración y rendición de cuentas.</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Nota de Análisis Crítico (RHS) -->
+                        <div class="lg:col-span-7 bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                                <h3 class="font-black text-[#262a36] text-sm uppercase tracking-wider">Nota de Análisis Crítico</h3>
+                            </div>
+
+                            <div class="space-y-3 text-xs text-slate-700 leading-relaxed">
+                                <p>
+                                    <strong>1. Asimetría en la Toma de Decisiones:</strong> La Torre 1 (UC1) concentra el 44.42% del indiviso general. Si bien posee mayoría operativa dentro de su subcondominio simple, se encuentra jurídicamente subordinada al Régimen Compuesto controlado por la desarrolladora a través del Artículo 21.
+                                </p>
+                                <p>
+                                    <strong>2. Ausencia de Evidencia de Asambleas Ordinarias:</strong> No constan actas de asamblea donde los condóminos hayan ratificado formalmente al administrador del condominio simple (Francisco Olvera) o al Consejo de Administración. De acuerdo con el Art. 74, los cargos duran 1 año, por lo que se requiere la convocatoria a asamblea ordinaria.
+                                </p>
+                                <p>
+                                    <strong>3. Viabilidad de Convocatoria Judicial:</strong> En el Régimen Compuesto se requiere el 20% del indiviso para convocar, mientras que en el Simple se requiere el 33%. La Torre 1 reúne de forma autónoma ambos porcentajes, otorgando a los propietarios la capacidad legal de convocar a Asamblea Anual con la intervención de un Juez de Primera Instancia en caso de negativa del Administrador.
+                                </p>
+                                <div class="bg-amber-100/60 p-4 rounded-xl border border-amber-200/80 text-[11px] text-amber-900 font-medium">
+                                    <strong>Conclusión Diagnóstica:</strong> La simple existencia de las facultades del Art. 21 no habilita una impugnación legal inmediata por la vía de controversia condominal, en tanto no exista un acto de ejecución directa que vulnere la propiedad privada o el libre tránsito de los colonos. La estrategia recomendada es la vía administrativa y asamblearia.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APARTADO 05: INVENTARIO DE DOCUMENTOS -->
+            <section id="inventario" class="scroll-mt-24">
+                <div class="card-presentation space-y-6">
+                    <span class="card-index">APARTADO 05</span>
+                    <div>
+                        <h2 class="text-2xl font-black text-[#262a36] uppercase tracking-wide mb-2">Inventario de Documentos Revisados</h2>
+                        <p class="text-slate-500 text-xs">Acervo documental analizado para la integración del presente reporte técnico.</p>
+                    </div>
+
+                    <!-- Tabla Limpia de Documentos -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-[#262a36] text-white">
+                                    <th class="py-3 px-4 rounded-tl-xl font-extrabold uppercase text-[10px] tracking-wider">ID Documento</th>
+                                    <th class="py-3 px-4 font-extrabold uppercase text-[10px] tracking-wider">Descripción del Instrumento Legal</th>
+                                    <th class="py-3 px-4 font-extrabold uppercase text-[10px] tracking-wider">Emisor / Autoridad</th>
+                                    <th class="py-3 px-4 font-extrabold uppercase text-[10px] tracking-wider">Fecha</th>
+                                    <th class="py-3 px-4 rounded-tr-xl font-extrabold uppercase text-[10px] tracking-wider">Estatus / Alcance</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-3.5 px-4 font-bold text-[#262a36]">DOC-01</td>
+                                    <td class="py-3.5 px-4 font-medium">Escritura Pública No. 68,409 (Constitución Régimen Compuesto y Simple UC1)</td>
+                                    <td class="py-3.5 px-4 text-slate-500">Notario Público No. 35 de Zapopan</td>
+                                    <td class="py-3.5 px-4 whitespace-nowrap">05/06/2024</td>
+                                    <td class="py-3.5 px-4"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Instrumento Base</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-3.5 px-4 font-bold text-[#262a36]">DOC-02</td>
+                                    <td class="py-3.5 px-4 font-medium">Reglamento del Régimen de Condominio Compuesto Shelmalta (Arts. 1 al 120)</td>
+                                    <td class="py-3.5 px-4 text-slate-500">JAET Edificación y Acabados</td>
+                                    <td class="py-3.5 px-4 whitespace-nowrap">05/06/2024</td>
+                                    <td class="py-3.5 px-4"><span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Normativa General</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-3.5 px-4 font-bold text-[#262a36]">DOC-03</td>
+                                    <td class="py-3.5 px-4 font-medium">Reglamento Interno y Protocolos del Condominio Simple UC1 (Torre 1)</td>
+                                    <td class="py-3.5 px-4 text-slate-500">Administración Torre 1</td>
+                                    <td class="py-3.5 px-4 whitespace-nowrap">Vigente 2026</td>
+                                    <td class="py-3.5 px-4"><span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Normativa Interna</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-3.5 px-4 font-bold text-[#262a36]">DOC-04</td>
+                                    <td class="py-3.5 px-4 font-medium">Tabla de Indivisos y Asignación de Áreas Comunes de Uso Exclusivo (ACUE)</td>
+                                    <td class="py-3.5 px-4 text-slate-500">Registro Público / Escritura</td>
+                                    <td class="py-3.5 px-4 whitespace-nowrap">05/06/2024</td>
+                                    <td class="py-3.5 px-4"><span class="bg-slate-100 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Anexo Técnico</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-3.5 px-4 font-bold text-[#262a36]">DOC-05</td>
+                                    <td class="py-3.5 px-4 font-medium">Dictamen Técnico Legal de Régimen de Condominio Shelmalta</td>
+                                    <td class="py-3.5 px-4 text-slate-500">DOXUS / M. Aréchiga Morales</td>
+                                    <td class="py-3.5 px-4 whitespace-nowrap">Julio 2026</td>
+                                    <td class="py-3.5 px-4"><span class="bg-purple-100 text-purple-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Dictamen Técnico</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- PIE DE PÁGINA OBLIGATORIO (FOOTER) -->
+        <footer class="bg-[#262a36] text-white pt-12 pb-8 px-6 border-t-4 border-[#Ffbc06] mt-12">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-slate-800 pb-8">
+                    <!-- Logo del Footer (20% más grande que en Nav) -->
+                    <div class="logo-container">
+                        <img src="logo.png" alt="DOXUS Logo" class="h-10 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="logo-fallback footer-logo-fallback hidden" title="DOXUS">D</div>
+                        <div>
+                            <span class="text-white font-black tracking-widest text-xl block">DOXUS</span>
+                            <span class="text-slate-400 text-[10px] uppercase tracking-widest block">REPORTE TÉCNICO LEGAL DE CONDOMINIO</span>
+                        </div>
+                    </div>
+
+                    <!-- Firma del Elaborador (Texto Fijo Obligatorio) -->
+                    <div class="text-left md:text-right">
+                        <span class="text-slate-400 text-[10px] uppercase tracking-widest block">ELABORÓ DICTAMEN TÉCNICO:</span>
+                        <span class="font-extrabold text-sm text-[#Ffbc06] tracking-widest uppercase block mt-1">
+                            MAXIMILIANO ARÉCHIGA-MORALES
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Disclaimer Legal Fijo Obligatorio -->
+                <div class="text-slate-400 text-[10px] leading-relaxed text-justify bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                    <strong class="text-slate-300">DISCLAIMER LEGAL:</strong> LA INFORMACIÓN PRESENTADA AQUÍ ES UN RESUMEN GENERAL DE LA OPERACIÓN QUE FUE REFERIDA PARA SU REVISIÓN. SE RECOMIENDA CONSULTAR CADA CONTRATO RELACIONADO Y COMENTAR CON EL PROFESIONISTA DE SU CONFIANZA EL ALCANCE DE LAS DECISIONES.
+                </div>
+
+                <!-- Copyright Fijo Obligatorio -->
+                <div class="flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500 pt-2">
+                    <p class="font-bold tracking-wider">© 2026 DOXUS - TODOS LOS DERECHOS RESERVADOS</p>
+                    <p class="text-slate-600 mt-2 sm:mt-0">Desarrollo Shelmalta • Felipe Ruvalcaba #5790, Fracc. El Colli, Zapopan, Jal.</p>
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPT DE SEGURIDAD Y NAVEGACIÓN -->
+    <script>
+        // Función para desplegar u ocultar la Tabla de Proindivisos
+        function toggleProindivisosTable() {
+            const tableContainer = document.getElementById('tabla-proindivisos-container');
+            const chevron = document.getElementById('chevron-proindivisos');
+            
+            if (tableContainer.classList.contains('hidden')) {
+                tableContainer.classList.remove('hidden');
+                chevron.classList.add('rotate-180');
+            } else {
+                tableContainer.classList.add('hidden');
+                chevron.classList.remove('rotate-180');
+            }
+        }
+
+        // Validación de contraseña para desbloquear el documento
+        function validatePassword(event) {
+            event.preventDefault();
+            const passwordInput = document.getElementById('password-input').value;
+            const errorMessage = document.getElementById('error-message');
+            const lockScreen = document.getElementById('lock-screen');
+
+            // Contraseña requerida: SHEMALTA (en mayúsculas)
+            if (passwordInput === 'SHEMALTA') {
+                lockScreen.classList.add('unlocked');
+                errorMessage.classList.add('hidden');
+                // Guardar estado de desbloqueo en la sesión
+                sessionStorage.setItem('shelmalta_unlocked', 'true');
+            } else {
+                errorMessage.classList.remove('hidden');
+            }
+        }
+
+        // Verificar si ya fue desbloqueado previamente en la sesión
+        document.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('shelmalta_unlocked') === 'true') {
+                const lockScreen = document.getElementById('lock-screen');
+                if (lockScreen) {
+                    lockScreen.classList.add('unlocked');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
