@@ -174,7 +174,8 @@
     <div id="lock-screen">
         <div class="bg-[#262a36] border border-slate-700 p-8 md:p-10 rounded-3xl max-w-md w-11/12 text-center shadow-2xl">
             <div class="flex justify-center mb-6">
-                <div class="logo-fallback nav-logo-fallback !w-14 !h-14 !text-2xl !rounded-xl">D</div>
+                <img src="logo.png" alt="DOXUS Logo" class="h-14 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="logo-fallback nav-logo-fallback hidden !w-14 !h-14 !text-2xl !rounded-xl" title="DOXUS">D</div>
             </div>
             <h2 class="text-2xl font-black text-white tracking-wide uppercase mb-2">Acceso Restringido</h2>
             <p class="text-slate-400 text-xs tracking-wider uppercase mb-6">REPORTE TÉCNICO LEGAL - CONDOMINIO SHELMALTA</p>
@@ -201,7 +202,7 @@
                 <div class="logo-container">
                     <img src="logo.png" alt="DOXUS Logo" class="h-8 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="logo-fallback nav-logo-fallback hidden" title="DOXUS">D</div>
-                    <span class="text-white font-black tracking-widest text-lg hidden sm:inline-block">DOXUS <span class="text-[#Ffbc06] font-light text-xs tracking-widest block">REPORTE TÉCNICO LEGAL</span></span>
+                    <span class="text-[#Ffbc06] font-light text-xs tracking-widest hidden sm:inline-block">REPORTE TÉCNICO LEGAL</span>
                 </div>
                 <div class="flex items-center space-x-6 text-xs text-slate-300 font-semibold tracking-wider">
                     <a href="#recomendaciones" class="hover:text-[#Ffbc06] transition-colors hidden md:inline">RECOMENDACIONES</a>
@@ -680,7 +681,6 @@
                         <img src="logo.png" alt="DOXUS Logo" class="h-10 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="logo-fallback footer-logo-fallback hidden" title="DOXUS">D</div>
                         <div>
-                            <span class="text-white font-black tracking-widest text-xl block">DOXUS</span>
                             <span class="text-slate-400 text-[10px] uppercase tracking-widest block">REPORTE TÉCNICO LEGAL DE CONDOMINIO</span>
                         </div>
                     </div>
@@ -729,11 +729,11 @@
         // Validación de contraseña para desbloquear el documento
         function validatePassword(event) {
             event.preventDefault();
-            const passwordInput = document.getElementById('password-input').value;
+            const passwordInput = document.getElementById('password-input').value.trim().toUpperCase();
             const errorMessage = document.getElementById('error-message');
             const lockScreen = document.getElementById('lock-screen');
 
-            // Contraseña requerida: SHEMALTA (en mayúsculas)
+            // Contraseña requerida: SHELMALTA
             if (passwordInput === 'SHELMALTA') {
                 lockScreen.classList.add('unlocked');
                 errorMessage.classList.add('hidden');
